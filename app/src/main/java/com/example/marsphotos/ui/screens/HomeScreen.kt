@@ -34,6 +34,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.marsphotos.R
 import com.example.marsphotos.ui.theme.MarsPhotosTheme
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 
 @Composable
 fun HomeScreen(
@@ -43,8 +46,10 @@ fun HomeScreen(
 ) {
     when (marsUiState) {
         is MarsUiState.Loading -> LoadingScreen(modifier = modifier.fillMaxSize())
-        is MarsUiState.Success -> ResultScreen(
-            marsUiState.photos, modifier = modifier.fillMaxWidth()
+        is MarsUiState.Success -> ListDisplayScreen(
+            marsUiState.photos, contentPadding = contentPadding, modifier = modifier.fillMaxWidth()
+            //ResultScreen(
+            //marsUiState.photos, modifier = modifier.fillMaxWidth()
         )
         is MarsUiState.Error -> ErrorScreen( modifier = modifier.fillMaxSize())
     }
@@ -113,5 +118,32 @@ fun ErrorScreenPreview() {
 fun PhotosGridScreenPreview() {
     MarsPhotosTheme {
         ResultScreen(stringResource(R.string.placeholder_success))
+    }
+}
+
+/**
+ * The home screen displaying photo grid.
+ */
+@Composable
+fun ListDisplayScreen(
+    photos: String,//List<MarsPhoto>,
+    modifier: Modifier = Modifier,
+    contentPadding: PaddingValues = PaddingValues(0.dp),
+) {
+    LazyVerticalGrid(
+        columns = GridCells.Adaptive(150.dp),
+        modifier = modifier.padding(horizontal = 4.dp),
+        contentPadding = contentPadding,
+    ) {
+        item{//s(items = photos, key = { photo -> photo.id }) { photo ->
+//            MarsPhotoCard(
+//                photo,
+//                modifier = modifier
+//                    .padding(4.dp)
+//                    .fillMaxWidth()
+//                    .aspectRatio(1.5f)
+//            )
+            Text(photos)
+        }
     }
 }
