@@ -20,7 +20,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.marsphotos.model.MarsPhoto
+import com.example.marsphotos.model.ListItem
 import com.example.marsphotos.network.MarsApi
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
@@ -30,7 +30,7 @@ import java.io.IOException
  * UI state for the Home screen
  */
 sealed interface MarsUiState {
-    data class Success(val photos: String) : MarsUiState
+    data class Success(val photos: List<ListItem>) : MarsUiState
     object Error : MarsUiState
     object Loading : MarsUiState
 }
@@ -49,7 +49,7 @@ class MarsViewModel : ViewModel() {
 
     /**
      * Gets Mars photos information from the Mars API Retrofit service and updates the
-     * [MarsPhoto] [List] [MutableList].
+     * [ListItem] [List] [MutableList].
      */
     fun getMarsPhotos() {
         viewModelScope.launch {
@@ -57,10 +57,10 @@ class MarsViewModel : ViewModel() {
             marsUiState = try {
                 val listResult = MarsApi.retrofitService.getPhotos()
 
-                val newList: List<MarsPhoto> = listResult.filter { !it.name.isNullOrEmpty() }
-                val sortedList: List<MarsPhoto> = newList.sortedWith(compareBy<MarsPhoto> {it.listId}.thenBy { it.name })
+                val newList: List<ListItem> = listResult.filter { !it.name.isNullOrEmpty() }
+                val sortedList: List<ListItem> = newList.sortedWith(compareBy<ListItem> {it.listId}.thenBy { it.name })
 
-                MarsUiState.Success( "$sortedList"
+                MarsUiState.Success( sortedList
                     //"Success: $listResult Mars photos retrieved"
                 )
             } catch (e: IOException) {
