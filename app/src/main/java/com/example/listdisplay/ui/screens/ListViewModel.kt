@@ -13,15 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.marsphotos.ui.screens
+package com.example.listdisplay.ui.screens
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.marsphotos.model.ListItem
-import com.example.marsphotos.network.MarsApi
+import com.example.listdisplay.model.ListItem
+import com.example.listdisplay.network.ListApi
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import java.io.IOException
@@ -29,44 +29,44 @@ import java.io.IOException
 /**
  * UI state for the Home screen
  */
-sealed interface MarsUiState {
-    data class Success(val photos: List<ListItem>) : MarsUiState
-    object Error : MarsUiState
-    object Loading : MarsUiState
+sealed interface ListUiState {
+    data class Success(val items: List<ListItem>) : ListUiState
+    object Error : ListUiState
+    object Loading : ListUiState
 }
 
-class MarsViewModel : ViewModel() {
+class ListViewModel : ViewModel() {
     /** The mutable State that stores the status of the most recent request */
-    var marsUiState: MarsUiState by mutableStateOf(MarsUiState.Loading)
+    var listUiState: ListUiState by mutableStateOf(ListUiState.Loading)
         private set
 
     /**
      * Call getMarsPhotos() on init so we can display status immediately.
      */
     init {
-        getMarsPhotos()
+        getItemsList()
     }
 
     /**
      * Gets Mars photos information from the Mars API Retrofit service and updates the
      * [ListItem] [List] [MutableList].
      */
-    fun getMarsPhotos() {
+    fun getItemsList() {
         viewModelScope.launch {
-            marsUiState = MarsUiState.Loading
-            marsUiState = try {
-                val listResult = MarsApi.retrofitService.getPhotos()
+            listUiState = ListUiState.Loading
+            listUiState = try {
+                val listResult = ListApi.retrofitService.getItems()
 
                 val newList: List<ListItem> = listResult.filter { !it.name.isNullOrEmpty() }
                 val sortedList: List<ListItem> = newList.sortedWith(compareBy<ListItem> {it.listId}.thenBy { it.name })
 
-                MarsUiState.Success( sortedList
+                ListUiState.Success( sortedList
                     //"Success: $listResult Mars photos retrieved"
                 )
             } catch (e: IOException) {
-                MarsUiState.Error
+                ListUiState.Error
             } catch (e: HttpException) {
-                MarsUiState.Error
+                ListUiState.Error
             }
         }
     }

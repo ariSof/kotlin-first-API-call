@@ -13,9 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.marsphotos.ui.screens
+package com.example.listdisplay.ui.screens
 
-import android.content.ClipData
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -34,31 +33,30 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.marsphotos.R
-import com.example.marsphotos.ui.theme.MarsPhotosTheme
+import com.example.listdisplay.R
+import com.example.listdisplay.ui.theme.ListDisplayTheme
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import com.example.marsphotos.model.ListItem
+import com.example.listdisplay.model.ListItem
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.foundation.layout.aspectRatio
 
 @Composable
 fun HomeScreen(
-    marsUiState: MarsUiState,
+    listUiState: ListUiState,
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues = PaddingValues(0.dp),
 ) {
-    when (marsUiState) {
-        is MarsUiState.Loading -> LoadingScreen(modifier = modifier.fillMaxSize())
-        is MarsUiState.Success -> ListDisplayScreen(
-            marsUiState.photos, contentPadding = contentPadding, modifier = modifier.fillMaxWidth()
+    when (listUiState) {
+        is ListUiState.Loading -> LoadingScreen(modifier = modifier.fillMaxSize())
+        is ListUiState.Success -> ListDisplayScreen(
+            listUiState.items, contentPadding = contentPadding, modifier = modifier.fillMaxWidth()
             //ResultScreen(
             //marsUiState.photos, modifier = modifier.fillMaxWidth()
         )
-        is MarsUiState.Error -> ErrorScreen( modifier = modifier.fillMaxSize())
+        is ListUiState.Error -> ErrorScreen( modifier = modifier.fillMaxSize())
     }
 }
 
@@ -107,7 +105,7 @@ fun ResultScreen(photos: String, modifier: Modifier = Modifier) {
 @Preview(showBackground = true)
 @Composable
 fun LoadingScreenPreview() {
-    MarsPhotosTheme {
+    ListDisplayTheme {
         LoadingScreen()
     }
 }
@@ -115,7 +113,7 @@ fun LoadingScreenPreview() {
 @Preview(showBackground = true)
 @Composable
 fun ErrorScreenPreview() {
-    MarsPhotosTheme {
+    ListDisplayTheme {
         ErrorScreen()
     }
 }
@@ -123,7 +121,7 @@ fun ErrorScreenPreview() {
 @Preview(showBackground = true)
 @Composable
 fun PhotosGridScreenPreview() {
-    MarsPhotosTheme {
+    ListDisplayTheme {
         ResultScreen(stringResource(R.string.placeholder_success))
     }
 }

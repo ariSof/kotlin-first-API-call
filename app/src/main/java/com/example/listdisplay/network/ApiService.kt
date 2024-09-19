@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package com.example.marsphotos.network
+package com.example.listdisplay.network
 
-import com.example.marsphotos.model.ListItem
+import com.example.listdisplay.model.ListItem
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
@@ -37,16 +37,16 @@ import retrofit2.http.GET
     /**
      * Retrofit service object for creating api calls
      */
-    interface MarsApiService {
+    interface ApiService {
         @GET("hiring.json")////"photos")
-        suspend fun getPhotos(): List<ListItem>
+        suspend fun getItems(): List<ListItem>
     }
 
     /**
      * A public Api object that exposes the lazy-initialized Retrofit service
      */
-    object MarsApi {
-        val retrofitService: MarsApiService by lazy {
-            retrofit.create(MarsApiService::class.java)
+    object ListApi {
+        val retrofitService: ApiService by lazy {
+            retrofit.create(ApiService::class.java)
         }
 }

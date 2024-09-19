@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.marsphotos
+package com.example.listdisplay
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -23,19 +23,20 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import com.example.marsphotos.ui.MarsPhotosApp
-import com.example.marsphotos.ui.theme.MarsPhotosTheme
+import com.example.listdisplay.ui.ListDisplayApp
+import com.example.listdisplay.ui.screens.ListDisplayScreen
+import com.example.listdisplay.ui.theme.ListDisplayTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
         setContent {
-            MarsPhotosTheme {
+            ListDisplayTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                 ) {
-                    MarsPhotosApp()
+                    ListDisplayApp()
                 }
             }
         }
