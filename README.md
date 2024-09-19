@@ -1,5 +1,17 @@
-Mars Photos
+List Display
 ==================================
+
+List Display retrieves a list of items and sorts them by listId and name. Completed by following the Mars Photo codelab listed below and refactoring of the files.
+
+Screenshots:
+
+![Screenshot of mobile](./media/mobile1.jpeg)
+![Second Screenshot of mobile](./media/mobile2.jpeg)
+
+By Sofia Villalpando
+==================================
+~ Original Mars Photos: ~
+
 
 Mars Photos app is a demo app that shows actual images of Mars' surface. These images are
 real-life photos from Mars captured by NASA's Mars rovers. The data is stored on a Web server
