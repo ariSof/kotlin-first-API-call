@@ -16,7 +16,7 @@
 
 package com.example.marsphotos.network
 
-import com.example.marsphotos.model.MarsPhoto
+import com.example.marsphotos.model.ListItem
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
@@ -39,7 +39,7 @@ import retrofit2.http.GET
      */
     interface MarsApiService {
         @GET("hiring.json")////"photos")
-        suspend fun getPhotos(): List<MarsPhoto>
+        suspend fun getPhotos(): List<ListItem>
     }
 
     /**

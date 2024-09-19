@@ -15,6 +15,7 @@
  */
 package com.example.marsphotos.ui.screens
 
+import android.content.ClipData
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -24,6 +25,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -37,6 +39,11 @@ import com.example.marsphotos.ui.theme.MarsPhotosTheme
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import com.example.marsphotos.model.ListItem
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.foundation.layout.aspectRatio
 
 @Composable
 fun HomeScreen(
@@ -121,29 +128,60 @@ fun PhotosGridScreenPreview() {
     }
 }
 
+//@Preview(showBackground = true)
+//@Composable
+//fun ListDisplayGridScreenPreview() {
+//    MarsPhotosTheme {
+//        val mockData = List(10) { ListItem(it, 1, "Item 123") }
+//        ListDisplayScreen(mockData)
+//    }
+//}
+
 /**
  * The home screen displaying photo grid.
  */
 @Composable
 fun ListDisplayScreen(
-    photos: String,//List<MarsPhoto>,
+    items: List<ListItem>,
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues = PaddingValues(0.dp),
 ) {
     LazyVerticalGrid(
-        columns = GridCells.Adaptive(150.dp),
+        columns = GridCells.Adaptive(minSize = 250.dp),
         modifier = modifier.padding(horizontal = 4.dp),
         contentPadding = contentPadding,
     ) {
-        item{//s(items = photos, key = { photo -> photo.id }) { photo ->
-//            MarsPhotoCard(
-//                photo,
-//                modifier = modifier
-//                    .padding(4.dp)
-//                    .fillMaxWidth()
-//                    .aspectRatio(1.5f)
-//            )
-            Text(photos)
+        items(items = items, key = { item -> item.id }) { item ->
+            Item(item)
+        }
+    }
+}
+
+@Composable
+fun Item(item: ListItem, modifier: Modifier = Modifier) {
+
+    Card(
+        modifier = modifier.padding(6.dp),
+        shape = MaterialTheme.shapes.medium,
+        elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
+    ) {
+
+        LazyRow(
+            horizontalArrangement = Arrangement.spacedBy(30.dp),
+            modifier = modifier
+                .padding(20.dp)
+                .fillMaxWidth()
+
+        ) {
+            item {
+                Text(text = "listId = ${item.listId}",
+                       // modifier = Modifier.size(40.dp)
+                )
+            }
+
+            item {
+                item.name?.let { Text(it) }
+            }
         }
     }
 }
